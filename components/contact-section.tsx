@@ -1,63 +1,107 @@
 "use client";
 
+import type React from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Github, Linkedin, Mail, Twitter, Send } from "lucide-react";
+import { Github, Linkedin, Mail, Send, Twitter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-export function ContactSection({ setGithubUsername }: { setGithubUsername: (username: string) => void }) {
-  const [formState, setFormState] = useState({
-    name: "",
-    email: "",
-    message: "",
-    githubLink: "",
-  });
+export function ContactSection() {
+  const [formState, setFormState] = useState({ name: "", email: "", message: "" });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormState({
-      ...formState,
-      [e.target.name]: e.target.value,
-    });
+    setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Extract GitHub username from provided link
-    const githubMatch = formState.githubLink.match(/github\.com\/([^/]+)/);
-    if (githubMatch) {
-      const username = githubMatch[1];
-      setGithubUsername(username);
-    }
-
-    // Reset form
-    setFormState({
-      name: "",
-      email: "",
-      message: "",
-      githubLink: "",
-    });
-
+    console.log(formState);
+    setFormState({ name: "", email: "", message: "" });
     alert("Message sent successfully!");
   };
 
+  const socialLinks = [
+    { name: "GitHub", icon: <Github size={20} />, url: "https://github.com/username" },
+    { name: "LinkedIn", icon: <Linkedin size={20} />, url: "https://linkedin.com/in/username" },
+    { name: "Email", icon: <Mail size={20} />, url: "mailto:email@example.com" },
+    { name: "Twitter", icon: <Twitter size={20} />, url: "https://twitter.com/username" },
+  ];
+
+  // 🔹 Fade-in animation without left-right movement
+  const container = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { staggerChildren: 0.1 } },
+  };
+
+  const item = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1 },
+  };
+
   return (
-    <div className="mb-20">
-      <h2 className="text-2xl font-bold mb-6">Contact</h2>
-      <motion.div className="bg-neutral-800/50 rounded-lg p-6">
-        <h3 className="text-xl font-semibold mb-4">Send a message</h3>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <Input name="name" value={formState.name} onChange={handleChange} placeholder="Your name" required />
-          <Input name="email" value={formState.email} onChange={handleChange} placeholder="Your email" required />
-          <Textarea name="message" value={formState.message} onChange={handleChange} placeholder="Your message" rows={5} required />
-          <Input name="githubLink" value={formState.githubLink} onChange={handleChange} placeholder="Your GitHub URL (optional)" />
-          <Button type="submit" className="w-full bg-green-500 hover:bg-green-600 text-white">
-            Send Message <Send size={16} className="ml-2" />
-          </Button>
-        </form>
-      </motion.div>
-    </div>
+    <motion.div initial="hidden" animate="show" variants={container} className="py-8 px-4">
+      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+        <motion.div variants={container} className="space-y-4">
+          <motion.section variants={item}>
+            <h3 className="text-xl font-semibold text-gray-200">Let's Connect</h3>
+            <p className="text-sm text-gray-400">
+              Whether you're looking for a developer, have a question, or just want to chat, feel free to reach out!
+            </p>
+          </motion.section>
+
+          <motion.section variants={item} className="flex gap-2">
+            {socialLinks.map((link) => (
+              <motion.a
+                key={link.name}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-100 bg-gray-800 hover:bg-gray-700 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-[0px_4px_8px_rgba(34,197,94,0.3)]"
+              >
+                {link.icon}
+                <span>{link.name}</span>
+              </motion.a>
+            ))}
+          </motion.section>
+
+          <motion.section variants={item} className="bg-gray-800/40 rounded-lg p-3 space-y-1 shadow-[0px_4px_8px_rgba(34,197,94,0.3)]">
+            <h4 className="text-sm font-semibold text-white">Location</h4>
+            <p className="text-xs text-gray-400">Hyderabad, Telangana</p>
+            <h4 className="text-sm font-semibold text-white">Availability</h4>
+            <p className="text-xs text-gray-400">Currently open to freelance and full-time opportunities.</p>
+          </motion.section>
+        </motion.div>
+
+        <motion.div variants={container} className="bg-gray-800/30 rounded-lg p-4 space-y-3 shadow-[0px_4px_8px_rgba(34,197,94,0.3)]">
+          <h3 className="text-xl font-semibold text-gray-200">Send a Message</h3>
+
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <motion.div variants={item}>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-300">Your Name</label>
+              <Input id="name" name="name" value={formState.name} onChange={handleChange} placeholder="John Doe" required className="bg-gray-700 border-gray-600 rounded-md p-2 mt-1 w-full text-sm shadow-[0px_4px_8px_rgba(34,197,94,0.3)]" />
+            </motion.div>
+
+            <motion.div variants={item}>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-300">Your Email</label>
+              <Input id="email" name="email" type="email" value={formState.email} onChange={handleChange} placeholder="johndoe@example.com" required className="bg-gray-700 border-gray-600 rounded-md p-2 mt-1 w-full text-sm shadow-[0px_4px_8px_rgba(34,197,94,0.3)]" />
+            </motion.div>
+
+            <motion.div variants={item}>
+              <label htmlFor="message" className="block text-sm font-medium text-gray-300">Your Message</label>
+              <Textarea id="message" name="message" value={formState.message} onChange={handleChange} placeholder="Type your message here..." rows={4} required className="bg-gray-700 border-gray-600 rounded-md p-2 mt-1 w-full text-sm shadow-[0px_4px_8px_rgba(34,197,94,0.3)]" />
+            </motion.div>
+
+            <motion.div variants={item} className="w-full flex justify-center">
+              <Button type="submit" className="bg-green-500 hover:bg-green-600 text-white rounded-lg px-4 py-2 text-sm flex items-center gap-2 shadow-[0px_4px_8px_rgba(34,197,94,0.3)]">
+                Send Message
+                <Send size={14} />
+              </Button>
+            </motion.div>
+          </form>
+        </motion.div>
+      </div>
+    </motion.div>
   );
 }

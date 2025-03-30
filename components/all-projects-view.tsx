@@ -1,42 +1,78 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { ProjectsGrid } from "@/components/ui/projects-grid"
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { ProjectsGrid } from "@/components/ui/projects-grid";
 
 export function AllProjectsView() {
-  const [filter, setFilter] = useState<string>("all")
+  const [filter, setFilter] = useState<string>("all");
 
   const filters = [
     { id: "all", name: "All Projects" },
     { id: "frontend", name: "Frontend" },
     { id: "backend", name: "Backend" },
     { id: "fullstack", name: "Full Stack" },
-    { id: "mobile", name: "Mobile" },
-  ]
+    { id: "mobile", name: "AI/ML" },
+  ];
+
+  // Pure fade-in animation
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { 
+        staggerChildren: 0.1, 
+        ease: "easeInOut", 
+        duration: 0.3 
+      },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { 
+        ease: "easeInOut", 
+        duration: 0.3 
+      },
+    },
+  };
 
   return (
-    <div className="mb-20">
-      <div className="mb-8">
+    <motion.div 
+      className="mb-20" 
+      variants={container} 
+      initial="hidden" 
+      animate="show"
+    >
+      <motion.div variants={item} className="mb-8">
         <div className="flex items-center gap-4 overflow-x-auto pb-2 scrollbar-hide">
-          {filters.map((item) => (
+          {filters.map((filterItem) => (
             <button
-              key={item.id}
-              onClick={() => setFilter(item.id)}
+              key={filterItem.id}
+              onClick={() => setFilter(filterItem.id)}
               className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
-                filter === item.id ? "bg-green-500 text-black" : "bg-neutral-800 text-white hover:bg-neutral-700"
+                filter === filterItem.id
+                  ? "bg-green-500 text-black"
+                  : "bg-neutral-800 text-white hover:bg-neutral-700"
               }`}
             >
-              {item.name}
+              {filterItem.name}
             </button>
           ))}
         </div>
-      </div>
+      </motion.div>
 
-      <ProjectsGrid showViewAll={false} />
+      <motion.div variants={item}>
+        <ProjectsGrid showViewAll={false} />
+      </motion.div>
 
-      <div className="mt-12">
+      <motion.div variants={item} className="mt-12">
         <h3 className="text-xl font-bold mb-4">Looking for more?</h3>
-        <p className="text-gray-400 mb-4">Check out my GitHub profile for more projects and contributions.</p>
+        <p className="text-gray-400 mb-4">
+          Check out my GitHub profile for more projects and contributions.
+        </p>
         <a
           href="https://github.com/Immanuel-Anthony"
           target="_blank"
@@ -48,8 +84,7 @@ export function AllProjectsView() {
           </svg>
           View GitHub Profile
         </a>
-      </div>
-    </div>
-  )
+      </motion.div>
+    </motion.div>
+  );
 }
-
