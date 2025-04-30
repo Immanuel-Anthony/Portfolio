@@ -2,7 +2,7 @@ const isGithubPages = process.env.NODE_ENV === 'production';
 
 // next.config.js
 const nextConfig = {
-  // REMOVE output: 'export'
+  output: 'export',
   basePath: '/Portfolio',
   assetPrefix: '/Portfolio/',
 };
