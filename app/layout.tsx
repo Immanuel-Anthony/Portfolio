@@ -21,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className} suppressHydrationWarning>
+
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <PlayerProvider> {/* ✅ Wrap everything inside PlayerProvider */}
             {children}  {/* Pages load here */}
