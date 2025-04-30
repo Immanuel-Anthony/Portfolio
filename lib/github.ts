@@ -1,23 +1,9 @@
-// lib/github.ts
-
 const GITHUB_USERNAME = "Immanuel-Anthony";
 
 export async function fetchGitHubRepos() {
-  const token = process.env.GITHUB_TOKEN;
-
-  if (!token) {
-    console.error("GitHub token not provided!");
-    return [];
-  }
-
   try {
     const response = await fetch(
-      `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=12`,
-      {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      }
+      `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=12`
     );
 
     if (!response.ok) {
@@ -27,18 +13,10 @@ export async function fetchGitHubRepos() {
 
     const repos = await response.json();
 
-    if (!Array.isArray(repos)) {
-      console.error("Invalid data format from GitHub API");
-      return [];
-    }
-
     const repoWithDetails = await Promise.all(
       repos.map(async (repo: any) => {
         try {
-          const langResponse = await fetch(repo.languages_url, {
-            headers: { 'Authorization': `Bearer ${token}` },
-          });
-
+          const langResponse = await fetch(repo.languages_url);
           const languages = langResponse.ok ? await langResponse.json() : {};
 
           return {
@@ -64,7 +42,6 @@ export async function fetchGitHubRepos() {
     );
 
     return repoWithDetails;
-
   } catch (error) {
     console.error("Error fetching GitHub repos:", error);
     return [];
