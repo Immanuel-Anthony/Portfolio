@@ -1,10 +1,29 @@
-"use client";
+"use client"; // Ensure this component runs on the client side only
 
-import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX } from "lucide-react";
+import {
+  Play,
+  Pause,
+  SkipBack,
+  SkipForward,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
 import { usePlayer } from "./PlayerProvider";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import type { ProjectInfo } from "./spotify-layout"; // Adjust path if needed
 
-export function PlayerBar() {
+interface PlayerBarProps {
+  activeProject: ProjectInfo | null;
+  isMobile: boolean;
+  toggleMobileMenu: () => void; // Function passed from parent
+}
+
+export function PlayerBar({
+  activeProject,
+  isMobile,
+  toggleMobileMenu,
+}: PlayerBarProps) {
   const {
     songs,
     currentSongIndex,
@@ -19,6 +38,14 @@ export function PlayerBar() {
     handleVolumeChange,
   } = usePlayer();
 
+  // Ensuring toggleMobileMenu is used only on the client-side
+  useEffect(() => {
+    // You can directly call the function here if needed
+    console.log("toggleMobileMenu function is ready to be used");
+    // For example, you can call toggleMobileMenu in an event or when the component mounts
+    // toggleMobileMenu();
+  }, [toggleMobileMenu]); // Add toggleMobileMenu as a dependency
+
   const formatTime = (time: number) => {
     if (!time || !isFinite(time)) return "0:00";
     const minutes = Math.floor(time / 60);
@@ -31,20 +58,27 @@ export function PlayerBar() {
       {/* Song Info */}
       <div className="flex items-center gap-3 min-w-[220px]">
         <img
-          src={songs[currentSongIndex].albumArt}
-          alt={songs[currentSongIndex].title}
+          src={songs[currentSongIndex]?.albumArt || ""}
+          alt={songs[currentSongIndex]?.title || "Unknown Song"}
           className="w-12 h-12 rounded-md object-cover shadow-md"
         />
         <div className="flex flex-col">
-          <span className="text-white text-sm font-medium">{songs[currentSongIndex].title}</span>
-          <span className="text-gray-400 text-xs">{songs[currentSongIndex].author}</span>
+          <span className="text-white text-sm font-medium">
+            {songs[currentSongIndex]?.title || "Unknown Title"}
+          </span>
+          <span className="text-gray-400 text-xs">
+            {songs[currentSongIndex]?.author || "Unknown Author"}
+          </span>
         </div>
       </div>
 
-      {/* Controls (Final Adjustment Slightly More Left) */}
+      {/* Controls */}
       <div className="flex flex-col items-center w-[38%] -ml-10">
         <div className="flex items-center gap-5 mb-[1px]">
-          <button onClick={handlePrev} className="text-gray-400 hover:text-white transition-colors">
+          <button
+            onClick={handlePrev}
+            className="text-gray-400 hover:text-white transition-colors"
+          >
             <SkipBack size={16} />
           </button>
           <motion.button
@@ -54,7 +88,10 @@ export function PlayerBar() {
           >
             {isPlaying ? <Pause size={18} /> : <Play size={18} fill="currentColor" />}
           </motion.button>
-          <button onClick={handleNext} className="text-gray-400 hover:text-white transition-colors">
+          <button
+            onClick={handleNext}
+            className="text-gray-400 hover:text-white transition-colors"
+          >
             <SkipForward size={16} />
           </button>
         </div>

@@ -29,7 +29,8 @@ export type ProjectInfo = {
   liveUrl?: string
 }
 
-export type ActiveSection = "projects" | "skills" | "experience" | "tools" | "contact"
+export type ActiveSection = "home" | "projects" | "skills" | "experience" | "tools" | "contact"
+
 
 interface SpotifyLayoutProps {
   children: React.ReactNode
