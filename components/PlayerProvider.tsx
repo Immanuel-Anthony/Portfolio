@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useRef, useEffect } from "react";
+import { usePathname } from "next/navigation"; // Changed from useRouter
 
 interface Song {
   id: string;
@@ -27,12 +28,16 @@ interface PlayerContextType {
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
 
 export function PlayerProvider({ children }: { children: React.ReactNode }) {
+  // Get basePath from environment variable or default to empty string
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+  
+  // Using the basePath for dynamic audio/image paths
   const songs: Song[] = [
-    { id: "song1", title: "hope to see you again", author: "antent", albumArt: "/hope-to-see-you-again.jpg", src: "/hope-to-see-you-again.mp3" },
-    { id: "song2", title: "snowfall", author: "reidenshi and Øneheart", albumArt: "/snowfall.jpg", src: "/snowfall.mp3" },
-    { id: "song3", title: "rain inside", author: "Antent and Øneheart", albumArt: "/rain_inside.jpg", src: "/rain_inside.mp3" },
-    { id: "song4", title: "your eyes", author: "Antent", albumArt: "/your_eyes.jpg", src: "/your_eyes.mp3" },
-    { id: "song5", title: "i’ll be your reason", author: "Antent", albumArt: "/your_reason.jpg", src: "/your_reason.mp3" },
+    { id: "song1", title: "hope to see you again", author: "antent", albumArt: `${basePath}/hope-to-see-you-again.jpg`, src: `${basePath}/hope-to-see-you-again.mp3` },
+    { id: "song2", title: "snowfall", author: "reidenshi and Øneheart", albumArt: `${basePath}/snowfall.jpg`, src: `${basePath}/snowfall.mp3` },
+    { id: "song3", title: "rain inside", author: "Antent and Øneheart", albumArt: `${basePath}/rain_inside.jpg`, src: `${basePath}/rain_inside.mp3` },
+    { id: "song4", title: "your eyes", author: "Antent", albumArt: `${basePath}/your_eyes.jpg`, src: `${basePath}/your_eyes.mp3` },
+    { id: "song5", title: "i'll be your reason", author: "Antent", albumArt: `${basePath}/your_reason.jpg`, src: `${basePath}/your_reason.mp3` },
   ];
 
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
@@ -43,7 +48,9 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // Initialize audio only on client side
   useEffect(() => {
+    // This hook only runs in the browser, not during SSR
     if (!audioRef.current) {
       audioRef.current = new Audio(songs[currentSongIndex].src);
       audioRef.current.volume = volume / 100;
@@ -55,7 +62,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
         audioRef.current.play().catch(console.error);
       }
     }
-  }, [currentSongIndex]);
+  }, [currentSongIndex, songs, isPlaying, volume]);
 
   useEffect(() => {
     if (!audioRef.current) return;
@@ -68,14 +75,18 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!audioRef.current) return;
-    audioRef.current.addEventListener("ended", handleNext);
+    
+    const handleEnded = () => handleNext();
+    audioRef.current.addEventListener("ended", handleEnded);
+    
     return () => {
-      audioRef.current?.removeEventListener("ended", handleNext);
+      audioRef.current?.removeEventListener("ended", handleEnded);
     };
   }, [currentSongIndex]);
 
   useEffect(() => {
     if (!audioRef.current) return;
+    
     const updateTime = () => setCurrentTime(audioRef.current!.currentTime);
     const setAudioData = () => setDuration(audioRef.current!.duration);
 
