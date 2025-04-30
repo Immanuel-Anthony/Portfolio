@@ -1,0 +1,6 @@
+# _config.yml
+title: My Jekyll Site
+description: A description of my site
+baseurl: "" # Optional
+url: "https://immanuel-anthony.github.io/Portfolio/" # Change to your site URL
+source: . # This will set the source directory to the root of the repository
