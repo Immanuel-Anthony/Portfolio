@@ -1,10 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { motion } from "framer-motion";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import {
   Home,
   Search,
@@ -19,9 +17,14 @@ import {
 import { cn } from "@/lib/utils";
 import type { ActiveSection } from "./spotify-layout";
 
-export function Sidebar() {
+interface SidebarProps {
+  activeSection: ActiveSection;
+  setActiveSection: React.Dispatch<React.SetStateAction<ActiveSection>>;
+}
+
+export function Sidebar({ activeSection, setActiveSection }: SidebarProps) {
   const pathname = usePathname();
-  const [activeSection, setActiveSection] = useState<ActiveSection>("home");
+  const isHomeActive = pathname === "/";
 
   const navItems = [
     { name: "Projects", icon: <Code size={20} />, href: "/projects", id: "projects" as ActiveSection },
@@ -30,30 +33,6 @@ export function Sidebar() {
     { name: "Tools & Technologies", icon: <Wrench size={20} />, href: "/tools", id: "tools" as ActiveSection },
     { name: "Contact", icon: <Mail size={20} />, href: "/contact", id: "contact" as ActiveSection },
   ];
-
-  // Load active section from localStorage on mount
-  useEffect(() => {
-    const storedSection = localStorage.getItem("activeSection") as ActiveSection | null;
-    if (storedSection) {
-      setActiveSection(storedSection);
-    }
-  }, []);
-
-  // Update active section when pathname changes
-  useEffect(() => {
-    if (pathname === "/") {
-      setActiveSection("home");
-      localStorage.setItem("activeSection", "home");
-    } else {
-      const matchingItem = navItems.find((item) => item.href === pathname);
-      if (matchingItem) {
-        setActiveSection(matchingItem.id);
-        localStorage.setItem("activeSection", matchingItem.id);
-      }
-    }
-  }, [pathname]);
-
-  const isHomeActive = pathname === "/";
 
   const handleNavigation = (section: ActiveSection) => {
     setActiveSection(section);
