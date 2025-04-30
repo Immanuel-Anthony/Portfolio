@@ -1,3 +1,5 @@
+// lib/github.ts
+
 const GITHUB_USERNAME = "Immanuel-Anthony";
 
 export async function fetchGitHubRepos() {
