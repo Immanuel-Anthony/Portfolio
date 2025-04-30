@@ -24,7 +24,8 @@ export function ExperienceSection() {
         "Contributed to a Proof of Concept (POC) for a live AI-driven project.",
         "Developed scripts to accurately extract data points using AI agents.",
         "Automated key processes to enhance workflow efficiency.",
-        "Assisted in Quality Assurance (QA), ensuring the accuracy and reliability of AI outputs."
+        "Assisted in Quality Assurance (QA), ensuring the accuracy and reliability of AI outputs.",
+        "Created the final UI and integrated the entire backend with the frontend"
       ],
     },
     {

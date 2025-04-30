@@ -72,7 +72,7 @@ export function ProfileSection({
           <span>Only visible to you</span>
         </div>
         <p className="text-gray-300 mt-2 max-w-2xl">
-          Back-End developer specializing in Java and Spring Boot. Occasional Python developer, interested in Artificial Intelligence and Machine Learning.
+          Python developer, interested in Artificial Intelligence and Machine Learning. Occasional Back-End developer specializing in Java and Spring Boot.
         </p>
         <div className="flex items-center gap-4 text-sm mt-2">
           <div className="text-gray-400">

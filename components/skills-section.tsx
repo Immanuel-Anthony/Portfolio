@@ -37,6 +37,8 @@ export function SkillsSection() {
     { name: "SonarCloud", icon: <Terminal />, category: "Testing" },
     { name: "CI/CD Tools", icon: <Terminal />, category: "DevOps" },
     { name: "GitHub Actions", icon: <Terminal />, category: "DevOps" },
+    { name: "Docker", icon: <Terminal />, category: "DevOps" },
+    { name: "Kubernetes", icon: <Terminal />, category: "DevOps" },
   ];
 
   const categories = Array.from(new Set(skills.map((skill) => skill.category)));

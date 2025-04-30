@@ -1,29 +1,18 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { ProjectsGrid } from "@/components/ui/projects-grid";
 
 export function AllProjectsView() {
-  const [filter, setFilter] = useState<string>("all");
-
-  const filters = [
-    { id: "all", name: "All Projects" },
-    { id: "frontend", name: "Frontend" },
-    { id: "backend", name: "Backend" },
-    { id: "fullstack", name: "Full Stack" },
-    { id: "mobile", name: "AI/ML" },
-  ];
-
   // Pure fade-in animation
   const container = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: { 
-        staggerChildren: 0.1, 
-        ease: "easeInOut", 
-        duration: 0.3 
+      transition: {
+        staggerChildren: 0.1,
+        ease: "easeInOut",
+        duration: 0.3,
       },
     },
   };
@@ -32,38 +21,20 @@ export function AllProjectsView() {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: { 
-        ease: "easeInOut", 
-        duration: 0.3 
+      transition: {
+        ease: "easeInOut",
+        duration: 0.3,
       },
     },
   };
 
   return (
-    <motion.div 
-      className="mb-20" 
-      variants={container} 
-      initial="hidden" 
+    <motion.div
+      className="mb-20"
+      variants={container}
+      initial="hidden"
       animate="show"
     >
-      <motion.div variants={item} className="mb-8">
-        <div className="flex items-center gap-4 overflow-x-auto pb-2 scrollbar-hide">
-          {filters.map((filterItem) => (
-            <button
-              key={filterItem.id}
-              onClick={() => setFilter(filterItem.id)}
-              className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
-                filter === filterItem.id
-                  ? "bg-green-500 text-black"
-                  : "bg-neutral-800 text-white hover:bg-neutral-700"
-              }`}
-            >
-              {filterItem.name}
-            </button>
-          ))}
-        </div>
-      </motion.div>
-
       <motion.div variants={item}>
         <ProjectsGrid showViewAll={false} />
       </motion.div>

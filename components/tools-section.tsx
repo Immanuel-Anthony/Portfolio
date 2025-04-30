@@ -27,6 +27,8 @@ export function ToolsSection() {
     { name: "OpenAI Whisper", icon: "🤖", category: "Machine Learning" },
     { name: "CrewAI", icon: "💼", category: "Machine Learning" },
     { name: "Redis", icon: "🔑", category: "Productivity" },
+    { name: "Docker", icon: "🐳", category: "DevOps" },
+    { name: "Kubernetes", icon: "☸️", category: "DevOps" }
   ];
 
   const categories = Array.from(new Set(tools.map((tool) => tool.category)));

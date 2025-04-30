@@ -7,26 +7,49 @@ import { Github, Linkedin, Mail, Send, Twitter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import emailjs from "emailjs-com"; // Importing EmailJS library
 
 export function ContactSection() {
   const [formState, setFormState] = useState({ name: "", email: "", message: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false); // To handle form submission state
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formState);
-    setFormState({ name: "", email: "", message: "" });
-    alert("Message sent successfully!");
+    setIsSubmitting(true);
+  
+    emailjs
+      .sendForm(
+        "service_4bbumun",     
+        "template_ml10gxc",    
+        e.currentTarget,       
+        "9FL1K2cPwlLIDxUDK"      
+      )
+      .then(
+        (result) => {
+          console.log("Message sent: ", result.text);
+          setFormState({ name: "", email: "", message: "" });
+          alert("Message sent successfully!");
+          setIsSubmitting(false);
+        },
+        (error) => {
+          console.error("Error sending message: ", error.text);
+          alert("Something went wrong. Please try again later.");
+          setIsSubmitting(false);
+        }
+      );
   };
+  
+  
 
   const socialLinks = [
-    { name: "GitHub", icon: <Github size={20} />, url: "https://github.com/username" },
-    { name: "LinkedIn", icon: <Linkedin size={20} />, url: "https://linkedin.com/in/username" },
-    { name: "Email", icon: <Mail size={20} />, url: "mailto:email@example.com" },
-    { name: "Twitter", icon: <Twitter size={20} />, url: "https://twitter.com/username" },
+    { name: "GitHub", icon: <Github size={20} />, url: "https://github.com/Immanuel-Anthony" },
+    { name: "LinkedIn", icon: <Linkedin size={20} />, url: "https://www.linkedin.com/in/immanuel-anthony-660a0b277/" },
+    { name: "Email", icon: <Mail size={20} />, url: "mailto:immanuelsanthony@gmail.com" },
   ];
 
   // 🔹 Fade-in animation without left-right movement
@@ -80,22 +103,52 @@ export function ContactSection() {
           <form onSubmit={handleSubmit} className="space-y-3">
             <motion.div variants={item}>
               <label htmlFor="name" className="block text-sm font-medium text-gray-300">Your Name</label>
-              <Input id="name" name="name" value={formState.name} onChange={handleChange} placeholder="John Doe" required className="bg-gray-700 border-gray-600 rounded-md p-2 mt-1 w-full text-sm shadow-[0px_4px_8px_rgba(34,197,94,0.3)]" />
+              <Input
+                id="name"
+                name="name"
+                value={formState.name}
+                onChange={handleChange}
+                placeholder="John Doe"
+                required
+                className="bg-gray-700 border-gray-600 rounded-md p-2 mt-1 w-full text-sm shadow-[0px_4px_8px_rgba(34,197,94,0.3)]"
+              />
             </motion.div>
 
             <motion.div variants={item}>
               <label htmlFor="email" className="block text-sm font-medium text-gray-300">Your Email</label>
-              <Input id="email" name="email" type="email" value={formState.email} onChange={handleChange} placeholder="johndoe@example.com" required className="bg-gray-700 border-gray-600 rounded-md p-2 mt-1 w-full text-sm shadow-[0px_4px_8px_rgba(34,197,94,0.3)]" />
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                value={formState.email}
+                onChange={handleChange}
+                placeholder="johndoe@example.com"
+                required
+                className="bg-gray-700 border-gray-600 rounded-md p-2 mt-1 w-full text-sm shadow-[0px_4px_8px_rgba(34,197,94,0.3)]"
+              />
             </motion.div>
 
             <motion.div variants={item}>
               <label htmlFor="message" className="block text-sm font-medium text-gray-300">Your Message</label>
-              <Textarea id="message" name="message" value={formState.message} onChange={handleChange} placeholder="Type your message here..." rows={4} required className="bg-gray-700 border-gray-600 rounded-md p-2 mt-1 w-full text-sm shadow-[0px_4px_8px_rgba(34,197,94,0.3)]" />
+              <Textarea
+                id="message"
+                name="message"
+                value={formState.message}
+                onChange={handleChange}
+                placeholder="Type your message here..."
+                rows={4}
+                required
+                className="bg-gray-700 border-gray-600 rounded-md p-2 mt-1 w-full text-sm shadow-[0px_4px_8px_rgba(34,197,94,0.3)]"
+              />
             </motion.div>
 
             <motion.div variants={item} className="w-full flex justify-center">
-              <Button type="submit" className="bg-green-500 hover:bg-green-600 text-white rounded-lg px-4 py-2 text-sm flex items-center gap-2 shadow-[0px_4px_8px_rgba(34,197,94,0.3)]">
-                Send Message
+              <Button
+                type="submit"
+                className="bg-green-500 hover:bg-green-600 text-white rounded-lg px-4 py-2 text-sm flex items-center gap-2 shadow-[0px_4px_8px_rgba(34,197,94,0.3)]"
+                disabled={isSubmitting} // Disable the button during submission
+              >
+                {isSubmitting ? "Sending..." : "Send Message"}
                 <Send size={14} />
               </Button>
             </motion.div>
