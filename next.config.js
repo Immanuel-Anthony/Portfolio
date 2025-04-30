@@ -1,11 +1,10 @@
-// next.config.js
+const isGithubPages = process.env.NODE_ENV === 'production';
 
-/** @type {import('next').NextConfig} */
+// next.config.js
 const nextConfig = {
-  output: 'export', // 🔥 This enables static export mode in Next.js 14+
+  // REMOVE output: 'export'
   basePath: '/Portfolio',
   assetPrefix: '/Portfolio/',
-  trailingSlash: true,
 };
 
 module.exports = nextConfig;
