@@ -25,7 +25,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className} suppressHydrationWarning>
+<<<<<<< HEAD
         <ClientLayout>{children}</ClientLayout>
+=======
+
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+          <PlayerProvider> {/* ✅ Wrap everything inside PlayerProvider */}
+            {children}  {/* Pages load here */}
+            <PlayerBar /> {/* ✅ Now the player persists across page changes */}
+          </PlayerProvider>
+        </ThemeProvider>
+>>>>>>> 10d2de8fc05645403113187536ac3dcdef4e1728
       </body>
     </html>
   );

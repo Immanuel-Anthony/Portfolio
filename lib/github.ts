@@ -1,16 +1,8 @@
 // lib/github.ts
 
-// export async function fetchGitHubRepos() {
-//   const username = "Immanuel-Anthony"; // Replace with the actual username
-//   const token = process.env.GITHUB_TOKEN; // Get the token from environment variables
-
-//   if (!token) {
-//     console.error("GitHub token not provided!");
-//     return [];
-//   }
+const GITHUB_USERNAME = "Immanuel-Anthony";
 
 export async function fetchGitHubRepos() {
-  const username = "Immanuel-Anthony";
   const token = process.env.GITHUB_TOKEN;
 
   if (!token) {
@@ -19,11 +11,14 @@ export async function fetchGitHubRepos() {
   }
 
   try {
-    const response = await fetch(`https://api.github.com/users/${username}/repos`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=12`,
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      }
+    );
 
     if (!response.ok) {
       console.error(`GitHub API error: ${response.status}`);
@@ -37,7 +32,6 @@ export async function fetchGitHubRepos() {
       return [];
     }
 
-    // Fetch languages for each repo
     const repoWithDetails = await Promise.all(
       repos.map(async (repo: any) => {
         try {
@@ -49,21 +43,21 @@ export async function fetchGitHubRepos() {
 
           return {
             id: repo.id,
-            title: repo.name, // ✅ FIXED: Renamed `name` to `title`
-            description: repo.description || "",
-            githubUrl: repo.html_url, // ✅ FIXED: `html_url` is correct key for GitHub link
-            techStack: Object.keys(languages), // ✅ FIXED: Return languages properly
-            liveUrl: repo.homepage || null, // ✅ FIXED: Include `homepage` as live URL
+            title: repo.name,
+            description: repo.description || "No description provided",
+            githubUrl: repo.html_url,
+            techStack: Object.keys(languages),
+            liveUrl: repo.homepage || "",
           };
         } catch (langError) {
           console.warn(`Failed to fetch languages for repo: ${repo.name}`, langError);
           return {
             id: repo.id,
-            title: repo.name, // ✅ FIXED: Ensure `title` is set correctly
-            description: repo.description || "",
+            title: repo.name,
+            description: repo.description || "No description provided",
             githubUrl: repo.html_url,
             techStack: [],
-            liveUrl: repo.homepage || null,
+            liveUrl: repo.homepage || "",
           };
         }
       })
