@@ -39,6 +39,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
     { id: "song4", title: "your eyes", author: "Antent", albumArt: `${basePath}/your_eyes.jpg`, src: `${basePath}/your_eyes.mp3` },
     { id: "song5", title: "i'll be your reason", author: "Antent", albumArt: `${basePath}/your_reason.jpg`, src: `${basePath}/your_reason.mp3` },
   ];
+  
 
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
