@@ -29,46 +29,46 @@ const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
 
 export function PlayerProvider({ children }: { children: React.ReactNode }) {
 
-  // GitHub Pages base path
-  const basePath = "/Portfolio/portfolio";
+const basePath = "/Portfolio/portfolio";
 
-  const songs: Song[] = [
-    {
-      id: "song1",
-      title: "hope to see you again",
-      author: "antent",
-      albumArt: `${basePath}/hope-to-see-you-again.jpg`,
-      src: `${basePath}/hope-to-see-you-again.mp3`
-    },
-    {
-      id: "song2",
-      title: "snowfall",
-      author: "reidenshi and Øneheart",
-      albumArt: `${basePath}/snowfall.jpg`,
-      src: `${basePath}/snowfall.mp3`
-    },
-    {
-      id: "song3",
-      title: "rain inside",
-      author: "Antent and Øneheart",
-      albumArt: `${basePath}/rain_inside.jpg`,
-      src: `${basePath}/rain_inside.mp3`
-    },
-    {
-      id: "song4",
-      title: "your eyes",
-      author: "Antent",
-      albumArt: `${basePath}/your_eyes.jpg`,
-      src: `${basePath}/your_eyes.mp3`
-    },
-    {
-      id: "song5",
-      title: "i'll be your reason",
-      author: "Antent",
-      albumArt: `${basePath}/your_reason.jpg`,
-      src: `${basePath}/your_reason.mp3`
-    },
-  ];
+const songs: Song[] = [
+  {
+    id: "song1",
+    title: "hope to see you again",
+    author: "antent",
+    albumArt: `${basePath}/hope-to-see-you-again.jpg`,
+    src: `${basePath}/hope-to-see-you-again.mp3`,
+  },
+  {
+    id: "song2",
+    title: "snowfall",
+    author: "reidenshi and Øneheart",
+    albumArt: `${basePath}/snowfall.jpg`,
+    src: `${basePath}/snowfall.mp3`,
+  },
+  {
+    id: "song3",
+    title: "rain inside",
+    author: "Antent and Øneheart",
+    albumArt: `${basePath}/rain_inside.jpg`,
+    src: `${basePath}/rain_inside.mp3`,
+  },
+  {
+    id: "song4",
+    title: "your eyes",
+    author: "Antent",
+    albumArt: `${basePath}/your_eyes.jpg`,
+    src: `${basePath}/your_eyes.mp3`,
+  },
+  {
+    id: "song5",
+    title: "i'll be your reason",
+    author: "Antent",
+    albumArt: `${basePath}/your_reason.jpg`,
+    src: `${basePath}/your_reason.mp3`,
+  },
+];
+
   
 
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
