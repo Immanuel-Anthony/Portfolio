@@ -81,20 +81,21 @@ const songs: Song[] = [
 
   // Initialize audio only on client side
     useEffect(() => {
-        if (!audioRef.current) {
-        audioRef.current = new Audio(songs[currentSongIndex].src);
-        audioRef.current.crossOrigin = "anonymous";   // <--- ADD THIS
-        audioRef.current.volume = volume / 100;
-        } else {
+    if (!audioRef.current) {
+        audioRef.current = new Audio();
         audioRef.current.src = songs[currentSongIndex].src;
-        audioRef.current.crossOrigin = "anonymous";   // <--- ADD THIS TOO
+        audioRef.current.preload = "auto";
+        audioRef.current.crossOrigin = "anonymous";
+        audioRef.current.volume = volume / 100;
+    } else {
+        audioRef.current.src = songs[currentSongIndex].src;
+        audioRef.current.preload = "auto";
         audioRef.current.load();
         audioRef.current.currentTime = 0;
         if (isPlaying) {
-            audioRef.current.play().catch(console.error);
+        audioRef.current.play().catch(console.error);
         }
     }
-
   }, [currentSongIndex, songs, isPlaying, volume]);
 
   useEffect(() => {
