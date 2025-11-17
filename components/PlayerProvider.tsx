@@ -80,18 +80,21 @@ const songs: Song[] = [
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // Initialize audio only on client side
-  useEffect(() => {
-    // This hook only runs in the browser, not during SSR
+    useEffect(() => {
     if (!audioRef.current) {
-      audioRef.current = new Audio(songs[currentSongIndex].src);
-      audioRef.current.volume = volume / 100;
+        audioRef.current = new Audio();
+        audioRef.current.src = songs[currentSongIndex].src;
+        audioRef.current.preload = "auto";
+        audioRef.current.crossOrigin = "anonymous";
+        audioRef.current.volume = volume / 100;
     } else {
-      audioRef.current.src = songs[currentSongIndex].src;
-      audioRef.current.load();
-      audioRef.current.currentTime = 0;
-      if (isPlaying) {
+        audioRef.current.src = songs[currentSongIndex].src;
+        audioRef.current.preload = "auto";
+        audioRef.current.load();
+        audioRef.current.currentTime = 0;
+        if (isPlaying) {
         audioRef.current.play().catch(console.error);
-      }
+        }
     }
   }, [currentSongIndex, songs, isPlaying, volume]);
 
