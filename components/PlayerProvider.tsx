@@ -28,18 +28,44 @@ interface PlayerContextType {
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
 
 export function PlayerProvider({ children }: { children: React.ReactNode }) {
-  // Get basePath from environment variable or default to empty string
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-  
-  // Using the basePath for dynamic audio/image paths
   const songs: Song[] = [
-    { id: "song1", title: "hope to see you again", author: "antent", albumArt: `${basePath}/hope-to-see-you-again.jpg`, src: `${basePath}/hope-to-see-you-again.mp3` },
-    { id: "song2", title: "snowfall", author: "reidenshi and Øneheart", albumArt: `${basePath}/snowfall.jpg`, src: `${basePath}/snowfall.mp3` },
-    { id: "song3", title: "rain inside", author: "Antent and Øneheart", albumArt: `${basePath}/rain_inside.jpg`, src: `${basePath}/rain_inside.mp3` },
-    { id: "song4", title: "your eyes", author: "Antent", albumArt: `${basePath}/your_eyes.jpg`, src: `${basePath}/your_eyes.mp3` },
-    { id: "song5", title: "i'll be your reason", author: "Antent", albumArt: `${basePath}/your_reason.jpg`, src: `${basePath}/your_reason.mp3` },
+    {
+      id: "song1",
+      title: "hope to see you again",
+      author: "antent",
+      albumArt: `/portfolio/hope-to-see-you-again.jpg`,
+      src: `/portfolio/hope-to-see-you-again.mp3`,
+    },
+    {
+      id: "song2",
+      title: "snowfall",
+      author: "reidenshi and Øneheart",
+      albumArt: `/portfolio/snowfall.jpg`,
+      src: `/portfolio/snowfall.mp3`,
+    },
+    {
+      id: "song3",
+      title: "rain inside",
+      author: "Antent and Øneheart",
+      albumArt: `/portfolio/rain_inside.jpg`,
+      src: `/portfolio/rain_inside.mp3`,
+    },
+    {
+      id: "song4",
+      title: "your eyes",
+      author: "Antent",
+      albumArt: `/portfolio/your_eyes.jpg`,
+      src: `/portfolio/your_eyes.mp3`,
+    },
+    {
+      id: "song5",
+      title: "i'll be your reason",
+      author: "Antent",
+      albumArt: `/portfolio/your_reason.jpg`,
+      src: `/portfolio/your_reason.mp3`,
+    },
   ];
-  
+
 
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
